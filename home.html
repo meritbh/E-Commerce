@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOCKED IN - Product Catalog</title>
+    <link rel="stylesheet" th:href="@{/products.css}">
+</head>
+<body class="black-background">
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <a href="products">Home</a>
+        <a href="sell">Sell</a>
+        <a href="/cart">Cart</a>
+        <a href="profile">Profile</a>
+        <a href="/logout">Logout</a>
+    </nav>
+
+    <!-- Website Header -->
+    <header>
+        <div class="top-left">LOCKED IN</div>
+        <div class="top-middle">PRODUCT CATALOG</div>
+    </header>
+
+    <!-- Search and Filter Section -->
+    <div class="search-section">
+        <form action="/products" method="get">
+            <input class="search-input" type="text" name="search" placeholder="Search products..." 
+                   value="${param.search}"/> <!-- Retain the search value in the input field -->
+            <input class="price-input" type="number" name="minPrice" placeholder="Min Price" step="0.01" 
+                   value="${param.minPrice}"/> <!-- Retain the price values -->
+            <input class="price-input" type="number" name="maxPrice" placeholder="Max Price" step="0.01" 
+                   value="${param.maxPrice}"/> <!-- Retain the price values -->
+            <button class="search-btn" type="submit">Search</button>
+        </form>
+    </div>
+
+    <!-- Product Display Section -->
+    <div class="product-list">
+        <div th:each="product : ${products}" class="product-item">
+            <h2 th:text="${product.name}">Product Name</h2>
+            <p th:text="${product.description}">Product Description</p>
+            <p th:text="'$' + ${product.price}">Price</p>
+
+            <!-- Loop through image paths and display images -->
+            <div th:each="imagePath : ${product.imagePaths}">
+                <img th:src="@{'/uploads/' + ${imagePath.split('/')[imagePath.split('/').length - 1]}}" 
+                     th:alt="${imagePath}" />
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,242 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body.black-background {
+    background-color: #000;
+    color: #fff;
+}
+
+body.white-background {
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+.center-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+}
+
+.website-name {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 2.5rem;
+    font-family: Impact, sans-serif;
+    font-weight: 600;
+    color: #007bff;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.login-container {
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 30px;
+    width: 100%;
+    max-width: 400px;
+}
+
+/* Bubble Style */
+.login-container.bubble-style {
+    border: 5px solid #00aaff; /* Bubble border size */
+    border-radius: 60px; /* Larger bubble style */
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2), 0 8px 12px rgba(0, 0, 0, 0.1);
+    padding: 40px; /* Increased padding for larger box */
+    animation: fadeIn 1s ease-in-out;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+    font-weight: bold;
+}
+
+.input-group {
+    margin-bottom: 15px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.login-btn {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: block;
+    margin: 0 auto;
+    width: 100%;
+    text-align: center;
+    font-size: 1rem;
+}
+
+.signup-link {
+    text-align: center;
+    margin-top: 15px;
+    color: #00aaff;
+}
+
+.signup-link a {
+    color: #00aaff;
+}
+
+.theme-toggle-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #000;
+    color: #fff;
+    border-radius: 50%;
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.forgot-password a {
+    color: #00aaff; /* Light blue color */
+    text-decoration: none;
+}
+
+.forgot-password a:visited {
+    color: #00aaff; /* Ensures it stays light blue even after clicking */
+}
+
+.forgot-password a:hover {
+    color: #007bff; /* Optional: Slightly darker blue on hover */
+}
+
+.navbar {
+    background-color: #000;
+    padding: 1em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #fff;
+}
+
+.navbar a {
+    color: #fff;
+    text-decoration: none;
+    margin: 0 1em;
+}
+
+.cart-container {
+    max-width: 1200px;
+    margin: 2em auto;
+    padding: 1em;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 1em 0;
+    border-bottom: 1px solid #ccc;
+}
+
+.cart-item:last-child {
+    border-bottom: none;
+}
+
+.cart-item-image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+}
+
+.cart-item-details {
+    flex: 2;
+    margin-left: 1em;
+}
+
+.cart-item-details h3 {
+    margin: 0;
+    font-size: 1.2em;
+    color: #000;
+}
+
+.cart-item-details p {
+    margin: 0.5em 0;
+    color: #555;
+}
+
+.cart-item-actions {
+    flex: 1;
+    text-align: right;
+}
+
+.cart-item-actions p {
+    font-size: 1.1em;
+    margin: 0.5em 0;
+}
+
+.cart-item-actions button {
+    background-color: #ff9900;
+    border: none;
+    color: #fff;
+    padding: 0.5em 1em;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.cart-item-actions button:hover {
+    background-color: #e68a00;
+}
+
+.total-container {
+    text-align: right;
+    margin-top: 2em;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.continue-shopping {
+    text-align: left;
+    margin-top: 2em;
+}
+
+.continue-shopping a {
+    text-decoration: none;
+    color: #007bff;
+    font-size: 1em;
+}
+
+.continue-shopping a:hover {
+    text-decoration: underline;
+}

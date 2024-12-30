@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>LOCKED IN - Sign Up</title>
+   <link rel="stylesheet" th:href="@{/styles.css}">
+</head>
+<body class="black-background">
+   <header class="website-name">LOCKED IN</header>
+   <div class="center-container">
+       <div class="login-container bubble-style">
+           <h2>Create an Account</h2>
+           <form th:action="@{/signup}" method="post" id="signup-form">
+               <div class="input-group">
+                   <label for="email">Email</label>
+                   <input type="email" id="email" name="email" placeholder="Enter your email" required>
+               </div>
+               <div class="input-group">
+                   <label for="password">Password</label>
+                   <input type="password" id="password" name="password" placeholder="Enter your password" required>
+               </div>
+               <button type="submit" class="login-btn">Sign Up</button>
+           </form>
+           <p th:if="${error}" style="color: red; text-align: center;">[[${error}]]</p>
+           <p th:if="${message}" style="color: green; text-align: center;">[[${message}]]</p>
+           <div class="signup-link">
+               <p>Already have an account? <a th:href="@{/custom-login}">Login</a></p>
+           </div>
+       </div>
+   </div>
+   <script th:src="@{/scripts.js}"></script>
+</body>
+</html>
