@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-
 @Controller
 public class HelloController {
 
@@ -35,7 +34,6 @@ public class HelloController {
         this.cartService = cartService;
     }
 
-    
     @GetMapping("/")
     public String defaultLink() {
         return "custom-login";
@@ -111,7 +109,7 @@ public class HelloController {
             Model model) {
         try {
             // Define the absolute path for the upload directory
-            String uploadDir = "/Users/jineshpatel/Documents/Projects/FullStack/Ecom/uploads";
+            String uploadDir = "/Users/meritbhusal/src/main/resources/static/uploads";
 
 
             // Create the directory if it doesn't exist
@@ -127,14 +125,16 @@ public class HelloController {
             product.setPrice(price);
 
             // Loop through each image and save it
-            for (MultipartFile image : images) {
+            for (MultipartFile image : images) 
+            {
                 String fileName = System.currentTimeMillis() + "_" + image.getOriginalFilename();
                 File savedFile = new File(uploadPath, fileName);
                 image.transferTo(savedFile);
-
-                // Add the image path to the list
-                product.getImagePaths().add(uploadDir + fileName);  // Add image path to product
+            
+                // Save only the filename to the product's imagePaths
+                product.getImagePaths().add(fileName);  // Save only the filename
             }
+            
 
             // Save the product with its images
             productRepository.save(product);
@@ -179,13 +179,26 @@ public class HelloController {
         user.setPassword(password);
 
         userRepository.save(user);
+
+        // Send welcome email
+        try {
+            emailService.sendResetPasswordEmail(email, "Welcome to LockedIn! Your account has been created.");
+        } catch (Exception e) {
+            model.addAttribute("error", "Could not send welcome email. Please try again.");
+        }
+        
         return "redirect:/products";
     }
-    
+
+    @GetMapping("/forgot-password")
+    public String forgotPassword() {
+        return "forgot-password"; // Loads templates/forgot-password.html
+    }
+
     @GetMapping("/cart")
     public String showCart(Model model) {
         System.out.println("Accessing /cart endpoint...");
-        List<CartItem> cartItems = cartService.getCartItems();
+        List<CartItem> cartItems = cartService.getCartItemsForUser();
         System.out.println("Cart Items: " + cartItems);
     
         if (cartItems == null || cartItems.isEmpty()) {
@@ -193,8 +206,8 @@ public class HelloController {
             System.out.println("Cart is empty.");
         } else {
             model.addAttribute("cartItems", cartItems);
-            model.addAttribute("totalPrice", cartService.getTotalPrice());
-            System.out.println("Cart contains items. Total Price: " + cartService.getTotalPrice());
+            model.addAttribute("totalPrice", cartService.getTotalPriceForUser());
+            System.out.println("Cart contains items. Total Price: " + cartService.getTotalPriceForUser());
         }
         return "cart";
     }
@@ -213,9 +226,5 @@ public class HelloController {
     public String removeFromCart(@RequestParam("cartItemId") Long cartItemId) {
         cartService.removeFromCart(cartItemId);
         return "redirect:/cart";
-    }
-
-    private String generateToken() {
-        return java.util.UUID.randomUUID().toString();
     }
 }
