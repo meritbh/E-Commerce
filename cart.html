@@ -13,7 +13,7 @@
        <a href="/sell">Sell</a>
        <a href="/cart">Cart</a>
        <a href="/profile">Profile</a>
-       <a href="/logout">Logout</a>
+       <a href="/logout1">Logout</a>
    </div>
 
    <!-- Main Content -->
@@ -46,6 +46,7 @@
                            <p>Price: $<span th:text="${item.totalPrice}"></span></p>
                            <form th:action="@{/cart/remove}" method="post">
                                <input type="hidden" name="cartItemId" th:value="${item.id}">
+                               <input type="hidden" th:if="${_csrf != null}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                                <button type="submit" class="btn">Remove</button>
                            </form>
                        </div>
