@@ -20,14 +20,19 @@ public class CartItem {
     @JoinColumn(name = "product_id", nullable = false) // Link to Product table
     private Product product;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false) // Link to User table
+    private User user; // Associate cart items with a specific user
+
     private int quantity;
 
     // Default constructor required by JPA
     public CartItem() {}
 
     // Constructor for manual object creation
-    public CartItem(Product product, int quantity) {
+    public CartItem(Product product, User user, int quantity) {
         this.product = product;
+        this.user = user;
         this.quantity = quantity;
     }
 
@@ -46,6 +51,14 @@ public class CartItem {
 
     public void setProduct(Product product) {
         this.product = product;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public int getQuantity() {
