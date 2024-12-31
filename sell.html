@@ -5,16 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sell Product</title>
     <link rel="stylesheet" th:href="@{/sell.css}">
-
 </head>
 <body>
-
-     <nav class="navbar">
+    <!-- Navigation Bar -->
+    <nav class="navbar">
         <a href="products">Home</a>
         <a href="sell">Sell</a>
         <a href="/cart">Cart</a>
         <a href="profile">Profile</a>
-        <a href="/logout">Logout</a>
+        <a href="/logout1">Logout</a>
     </nav>
     
     <header>
@@ -23,6 +22,9 @@
     
     <main>
         <form action="/sell" method="post" enctype="multipart/form-data">
+            <!-- CSRF Token -->
+            <input type="hidden" th:if="${_csrf != null}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
             <div>
                 <label for="name">Product Name:</label>
                 <input type="text" id="name" name="name" placeholder="Enter product name" required>
@@ -58,6 +60,7 @@
             </p>
         </section>
     </main>
+
     <script th:src="@{sell.js}"></script>
 </body>
 </html>
