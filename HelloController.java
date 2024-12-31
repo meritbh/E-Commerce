@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
+import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 @Controller
 public class HelloController {
 
@@ -23,6 +26,8 @@ public class HelloController {
     private final EmailService emailService;
     private final ProductRepository productRepository;
     private final CartService cartService;
+    private boolean authUser = true; // Tracks user authentication
+
 
     public HelloController(UserRepository userRepository, 
                            EmailService emailService,
@@ -37,6 +42,12 @@ public class HelloController {
     @GetMapping("/")
     public String defaultLink() {
         return "custom-login";
+    }
+
+    @GetMapping("/logout1")
+    public String logoutLink() {
+        authUser = false; // Reset authentication
+        return "redirect:/custom-login";
     }
 
     @GetMapping("/custom-login")
@@ -62,6 +73,7 @@ public class HelloController {
             System.out.println("Stored password: " + user.getPassword());
     
             if (user.getPassword().equals(password)) {
+                authUser = true; // Set authUser to true upon successful login
                 return "redirect:/products";
             } else {
                 model.addAttribute("errorMessage", "Password mismatch for: " + email);
@@ -72,14 +84,27 @@ public class HelloController {
             return "custom-login";
         }
     }
+    private boolean isAuthenticated(Model model) {
+        if (!authUser) {
+        model.addAttribute("errorMessage", "You must be logged in to access this page.");
+        return false;
+        }
+        return true;
+    
+    }
 
     @GetMapping("/products")
     public String listingPage(@RequestParam(value = "search", required = false) String search,
                             @RequestParam(value = "minPrice", required = false) Double minPrice,
                             @RequestParam(value = "maxPrice", required = false) Double maxPrice,
-                            Model model) {
-        List<Product> products;
+                            Model model, HttpServletRequest request) {
         
+        // Extract CSRF token and add to model
+        CsrfToken csrfToken = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
+        model.addAttribute("_csrf", csrfToken);
+
+        List<Product> products;
+
         if (search != null && !search.isEmpty()) {
             // Search by name if the search parameter is provided
             products = productRepository.findByName(search);
@@ -96,9 +121,10 @@ public class HelloController {
     }
 
     @GetMapping("/sell")
-    public String sell() {
+    public String sell(Model model) {
+        if (!isAuthenticated(model)) return "custom-login";
         return "sell";
-    }
+        }
 
     @PostMapping("/sell")
     public String processSell(
@@ -107,6 +133,7 @@ public class HelloController {
             @RequestParam("price") double price,
             @RequestParam("images") MultipartFile[] images,  // Array to handle multiple images
             Model model) {
+            if (!isAuthenticated(model)) return "custom-login";
         try {
             // Define the absolute path for the upload directory
             String uploadDir = "/Users/meritbhusal/src/main/resources/static/uploads";
@@ -123,6 +150,7 @@ public class HelloController {
             product.setName(name);
             product.setDescription(description);
             product.setPrice(price);
+            productRepository.save(product);
 
             // Loop through each image and save it
             for (MultipartFile image : images) 
@@ -150,8 +178,8 @@ public class HelloController {
     @GetMapping("/uploads/{filename}")
     @ResponseBody
     public Resource getImage(@PathVariable String filename) {
-        String uploadDir = "/Users/jineshpatel/Documents/Projects/FullStack/Ecom/uploads/";
-        return new FileSystemResource(uploadDir + filename);
+        String uploadDir = "/Users/meritbhusal/src/main/resources/static/uploads";
+        return new FileSystemResource(uploadDir + "/" + filename);
     }
 
     @GetMapping("/reset-password")
@@ -174,11 +202,14 @@ public class HelloController {
             return "signup";
         }
 
-        User user = new User();
-        user.setEmail(email);
-        user.setPassword(password);
+        // Create and save the new user
+        User newUser = new User();
+        newUser.setEmail(email.trim().toLowerCase());
+        newUser.setPassword(password); // Ideally, passwords should be hashed before saving
+        userRepository.save(newUser);
 
-        userRepository.save(user);
+        // Authenticate the user
+        authUser = true;
 
         // Send welcome email
         try {
@@ -197,6 +228,7 @@ public class HelloController {
 
     @GetMapping("/cart")
     public String showCart(Model model) {
+        if (!isAuthenticated(model)) return "custom-login";
         System.out.println("Accessing /cart endpoint...");
         List<CartItem> cartItems = cartService.getCartItemsForUser();
         System.out.println("Cart Items: " + cartItems);
