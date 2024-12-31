@@ -13,7 +13,7 @@
         <a href="sell">Sell</a>
         <a href="/cart">Cart</a>
         <a href="profile">Profile</a>
-        <a href="/logout">Logout</a>
+        <a href="/logout1">Logout</a>
     </nav>
 
     <!-- Website Header -->
@@ -22,18 +22,18 @@
         <div class="top-middle">PRODUCT CATALOG</div>
     </header>
 
-    <!-- Search and Filter Section -->
-    <div class="search-section">
-        <form action="/products" method="get">
-            <input class="search-input" type="text" name="search" placeholder="Search products..." 
-                   value="${param.search}"/> <!-- Retain the search value in the input field -->
-            <input class="price-input" type="number" name="minPrice" placeholder="Min Price" step="0.01" 
-                   value="${param.minPrice}"/> <!-- Retain the price values -->
-            <input class="price-input" type="number" name="maxPrice" placeholder="Max Price" step="0.01" 
-                   value="${param.maxPrice}"/> <!-- Retain the price values -->
-            <button class="search-btn" type="submit">Search</button>
-        </form>
-    </div>
+<!-- Search and Filter Section -->
+<div class="search-section"></div>
+    <form action="/products" method="get">
+        <input class="search-input" type="text" name="search" placeholder="Search" 
+               th:value="${param.search}"/> <!-- Use th:value to ensure Thymeleaf processes the value -->
+        <input class="price-input" type="number" name="minPrice" placeholder="Min Price" step="0.01" 
+               th:value="${param.minPrice}"/> <!-- Use th:value to ensure Thymeleaf processes the value -->
+        <input class="price-input" type="number" name="maxPrice" placeholder="Max Price" step="0.01" 
+               th:value="${param.maxPrice}"/> <!-- Use th:value to ensure Thymeleaf processes the value -->
+        <button class="search-btn" type="submit">Search</button>
+    </form>
+</div>
 
     <!-- Product Display Section -->
     <div class="product-list">
@@ -41,13 +41,20 @@
             <h2 th:text="${product.name}">Product Name</h2>
             <p th:text="${product.description}">Product Description</p>
             <p th:text="'$' + ${product.price}">Price</p>
-
+    
             <!-- Loop through image paths and display images -->
-            <div th:each="imagePath : ${product.imagePaths}">
-                <img th:src="@{'/uploads/' + ${imagePath.split('/')[imagePath.split('/').length - 1]}}" 
-                     th:alt="${imagePath}" />
-            </div>
+            <div th:each="imagePath : ${product.imagePaths}" class="product-image">
+                <img th:src="@{'/uploads/' + ${imagePath}}" alt="Product Image">
+            </div>                
+    
+            <!-- Add to Cart Button -->
+            <form action="/cart/add" method="post">
+
+                <input type="hidden" th:if="${_csrf != null}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                <button type="submit">Add to Cart</button>
+            </form>
         </div>
     </div>
+    
 </body>
 </html>
