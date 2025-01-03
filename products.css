@@ -80,8 +80,52 @@ h2 {
 /* Available Products Section */
 .product-list {
     margin-top: 50px;
-    text-align: center;
+    display: flex;
+    flex-wrap: wrap; /* Allow items to wrap to the next row */
+    justify-content: flex-start; /* Align items to the left */
+    gap: 20px; /* Add space between items */
+    padding: 0 20px; /* Optional: Add some padding */
 }
+
+.product-item {
+    background-color: #111; /* Optional: Background for better visual separation */
+    border: 1px solid #87ceeb; /* Optional: Border for distinction */
+    border-radius: 5px;
+    padding: 20px;
+    width: 300px; /* Fixed width for uniform appearance */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional: Add a shadow */
+    text-align: left; /* Align text to the left */
+}
+.product-item p {
+    word-wrap: break-word; /* Break words when they exceed the container width */
+    word-break: break-word; /* Break words for long strings */
+    overflow-wrap: break-word; /* Ensure compatibility with all browsers */
+    white-space: normal; /* Allow text to wrap onto the next line */
+    max-width: 100%; /* Ensure it stays within the container */
+}
+
+.product-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    margin: 10px 0;
+    border: 1px solid #87ceeb;
+    border-radius: 5px;
+    width: 250px; /* Fixed width for the container */
+    height: 250px; /* Fixed height for the container */
+    background-color: #000; /* Optional: Background color for the container */
+    box-sizing: border-box;
+}
+
+.product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: fill; /* Ensures the entire image is visible without cropping */
+    border-radius: 5px; /* Match the container's rounded corners */
+    background-color: #000; /* Optional: Background color behind images */
+}
+
 
 .product-list h2 {
     font-size: 1.8rem;
@@ -100,6 +144,7 @@ h2 {
     margin: 10px 0;
 }
 
+
 /* No Products Found Message */
 .no-products {
     margin-top: 50px;
@@ -108,6 +153,24 @@ h2 {
     color: red;
     font-weight: bold;
 }
+
+.add-to-cart-btn {
+    padding: 10px 20px;
+    font-size: 1rem;
+    color: #fff;
+    background-color: #87ceeb; /* Sky Blue */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+.add-to-cart-btn:hover {
+    background-color: #1e90ff; /* Darker Blue on hover */
+}
+
+
 /* Navigation Bar */
 .navbar {
     display: flex;
