@@ -4,59 +4,44 @@
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Your Cart</title>
-   <link rel="stylesheet" href="styles.css">
+   <link rel="stylesheet" href="/static/css/cart.css">
 </head>
 <body>
-   <!-- Navigation Bar -->
-   <div class="navbar">
+   <nav class="navbar">
        <a href="/products">Home</a>
        <a href="/sell">Sell</a>
        <a href="/cart">Cart</a>
-       <a href="/profile">Profile</a>
        <a href="/logout1">Logout</a>
-   </div>
+   </nav>
 
-   <!-- Main Content -->
+
+   <header>
+       <h1>Your Cart</h1>
+   </header>
+
+
    <main>
-       <div class="cart-container">
-           <h2>Your Cart</h2>
-
-           <!-- Success and Error Messages -->
-           <p th:if="${errorMessage}" th:text="${errorMessage}" class="error-message"></p>
-           <p th:if="${successMessage}" th:text="${successMessage}" class="success-message"></p>
-
-           <!-- Empty Cart Message -->
-           <div th:if="${emptyCartMessage}">
-               <p th:text="${emptyCartMessage}"></p>
-               <div>
-                   <a th:href="@{/products}" class="btn">Continue Shopping</a>
-               </div>
-           </div>
-
-           <!-- Cart Items -->
-           <div th:if="${cartItems != null and !#lists.isEmpty(cartItems)}">
-               <ul>
-                   <li th:each="item : ${cartItems}" class="cart-item">
-                       <img th:src="${item.product.imageUrl}" alt="Product Image" class="cart-item-image">
-                       <div class="cart-item-details">
-                           <h3 th:text="${item.product.name}"></h3>
-                           <p th:text="${item.product.description}"></p>
-                       </div>
-                       <div class="cart-item-actions">
-                           <p>Price: $<span th:text="${item.totalPrice}"></span></p>
-                           <form th:action="@{/cart/remove}" method="post">
-                               <input type="hidden" name="cartItemId" th:value="${item.id}">
-                               <input type="hidden" th:if="${_csrf != null}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-                               <button type="submit" class="btn">Remove</button>
-                           </form>
-                       </div>
-                   </li>
-               </ul>
-               <p class="total-container">Total Price: $<span th:text="${#numbers.formatDecimal(totalPrice, 1, 2)}"></span></p>
-               <div class="continue-shopping">
-                   <a th:href="@{/products}">Continue Shopping</a>
-               </div>
-           </div>
+       <div th:if="${cartItems != null and !#lists.isEmpty(cartItems)}">
+        <ul>
+            <li th:each="item : ${cartItems}" class="cart-item">
+                <!-- Display the product image -->
+                <img th:src="@{/uploads/{imagePath}(imagePath=${item.product.imagePaths[0]})}" alt="Product Image" style="width: 100px; height: 100px; object-fit: cover; margin-right: 0.5em; border-radius: 3px;">
+                
+                <!-- Display other product details -->
+                <h3 th:text="${item.product.name}"></h3>
+                <p th:text="${item.product.description}"></p>
+                <p>Price: $<span th:text="${item.product.price}"></span></p>
+                <p>Quantity: <span th:text="${item.quantity}"></span></p>
+                <p>Total: $<span th:text="${item.product.price * item.quantity}"></span></p>
+            </li>
+        </ul>        
+           <p>Total Price: $<span th:text="${totalPrice}"></span></p>
+           <form action="/cart/buy" method="post">
+               <button type="submit" class="buy-now-btn">Buy Now</button>
+           </form>
+       </div>
+       <div th:if="${cartItems == null or #lists.isEmpty(cartItems)}">
+           <p>Your cart is empty.</p>
        </div>
    </main>
 </body>
