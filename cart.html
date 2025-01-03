@@ -4,7 +4,7 @@
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Your Cart</title>
-   <link rel="stylesheet" href="/static/css/cart.css">
+   <link rel="stylesheet" th:href="@{/cart.css}">
 </head>
 <body>
    <nav class="navbar">
@@ -25,16 +25,25 @@
         <ul>
             <li th:each="item : ${cartItems}" class="cart-item">
                 <!-- Display the product image -->
-                <img th:src="@{/uploads/{imagePath}(imagePath=${item.product.imagePaths[0]})}" alt="Product Image" style="width: 100px; height: 100px; object-fit: cover; margin-right: 0.5em; border-radius: 3px;">
+                <img th:src="@{/uploads/{imagePath}(imagePath=${item.product.imagePaths[0]})}" alt="Product Image" class="cart-item-image">
                 
                 <!-- Display other product details -->
-                <h3 th:text="${item.product.name}"></h3>
-                <p th:text="${item.product.description}"></p>
-                <p>Price: $<span th:text="${item.product.price}"></span></p>
-                <p>Quantity: <span th:text="${item.quantity}"></span></p>
-                <p>Total: $<span th:text="${item.product.price * item.quantity}"></span></p>
+                <div class="cart-item-details">
+                    <h3 th:text="${item.product.name}"></h3>
+                    <p th:text="${item.product.description}"></p>
+                </div>
+                
+                <!-- Price and Quantity -->
+                <div class="cart-item-price">
+                    <p>Price: $<span th:text="${item.product.price}"></span></p>
+                    <p>Quantity: <span th:text="${item.quantity}"></span></p>
+                    <form action="/cart/add" method="post" style="margin-top: 0.5em;">
+                        <input type="hidden" th:name="productId" th:value="${item.product.id}">
+                        <button type="submit" class="add-button">Add</button>
+                    </form>
+                </div>
             </li>
-        </ul>        
+        </ul>             
            <p>Total Price: $<span th:text="${totalPrice}"></span></p>
            <form action="/cart/buy" method="post">
                <button type="submit" class="buy-now-btn">Buy Now</button>
