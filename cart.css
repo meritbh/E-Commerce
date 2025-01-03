@@ -1,3 +1,53 @@
+/* Global styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4; /* Light gray background for the page */
+}
+
+h1 {
+    color: #000; /* Black text for headers */
+    text-align: center;
+    margin-top: 3em;
+}
+/* Main Content */
+main {
+    margin-top: 40px; /* Space to account for the fixed navbar */
+    padding: 2em;
+    background-color: #fff; /* White background for the form section */
+    border-radius: 8px;
+    max-width: 1250px;
+    margin-left: auto;
+    margin-right: auto;
+}
+/* Navigation Bar */
+.navbar {
+    display: flex;
+    justify-content: flex-end; /* Align items to the right */
+    align-items: center;
+    background-color: #000; /* Black background */
+    padding: 1em;
+    position: fixed; /* Keep navbar at the top */
+    top: 0; /* Position at the very top */
+    right: 0;
+    width: 100%; /* Full width */
+    z-index: 1000; /* Ensure navbar is on top */
+}
+.navbar a {
+    text-decoration: none;
+    color: #fff; /* White text */
+    font-weight: bold;
+    padding: 0.5em 1em;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.navbar a:hover {
+    background-color: #87ceeb; /* Sky Blue */
+    color: #000; /* Black text */
+}
+
 .cart-item {
     display: flex; /* Enable flexbox for horizontal alignment */
     align-items: center; /* Vertically align items */
@@ -7,8 +57,8 @@
 }
 
 .cart-item-image {
-    width: 50px; /* Set smaller image size */
-    height: 50px;
+    width: 80px; /* Set smaller image size */
+    height: 80px;
     object-fit: cover;
     border-radius: 3px;
 }
@@ -21,11 +71,34 @@
 .cart-item-details h3 {
     margin: 0;
     font-size: 1.2em;
-    color: #000;
+    color: #222;
 }
 
 .cart-item-details p {
     margin: 0.5em 0;
     font-size: 0.9em;
-    color: #666;
+    color: #222;
+}
+
+.add-button {
+    display: inline-block;
+    padding: 0.5em 1em;
+    font-size: 0.9em;
+    color: #fff;
+    background-color: #007bff; /* Blue background */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.add-button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+.cart-item-price form {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: flex-end; /* Align the button to the right */
 }
