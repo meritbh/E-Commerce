@@ -1,0 +1,31 @@
+.cart-item {
+    display: flex; /* Enable flexbox for horizontal alignment */
+    align-items: center; /* Vertically align items */
+    padding: 1em 0;
+    border-bottom: 1px solid #ddd;
+    gap: 1em; /* Add space between the image and details */
+}
+
+.cart-item-image {
+    width: 50px; /* Set smaller image size */
+    height: 50px;
+    object-fit: cover;
+    border-radius: 3px;
+}
+
+.cart-item-details {
+    flex: 1; /* Allow details to take up remaining space */
+    color: #222;
+}
+
+.cart-item-details h3 {
+    margin: 0;
+    font-size: 1.2em;
+    color: #000;
+}
+
+.cart-item-details p {
+    margin: 0.5em 0;
+    font-size: 0.9em;
+    color: #666;
+}
