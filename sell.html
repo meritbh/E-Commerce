@@ -7,24 +7,19 @@
     <link rel="stylesheet" th:href="@{/sell.css}">
 </head>
 <body>
-    <!-- Navigation Bar -->
     <nav class="navbar">
-        <a href="products">Home</a>
-        <a href="sell">Sell</a>
+        <a href="/products">Home</a>
+        <a href="/sell">Sell</a>
         <a href="/cart">Cart</a>
-        <a href="profile">Profile</a>
         <a href="/logout1">Logout</a>
     </nav>
-    
+
     <header>
         <h1>Sell Your Product</h1>
     </header>
-    
+
     <main>
         <form action="/sell" method="post" enctype="multipart/form-data">
-            <!-- CSRF Token -->
-            <input type="hidden" th:if="${_csrf != null}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-
             <div>
                 <label for="name">Product Name:</label>
                 <input type="text" id="name" name="name" placeholder="Enter product name" required>
@@ -49,18 +44,16 @@
                 <button type="submit">Sell Product</button>
             </div>
         </form>
-        
-        <!-- Display messages -->
-        <section>
-            <p style="color: green;">
-                <span th:if="${message}" th:text="${message}"></span>
-            </p>
-            <p style="color: red;">
-                <span th:if="${error}" th:text="${error}"></span>
-            </p>
-        </section>
-    </main>
-
-    <script th:src="@{sell.js}"></script>
+    <!-- Display messages -->
+    <section>
+        <p style="color: green;">
+            <span th:if="${message}" th:text="${message}"></span>
+        </p>
+        <p style="color: red;">
+            <span th:if="${error}" th:text="${error}"></span>
+        </p>
+    </section>
+</main>
+<script th:src="@{sell.js}"></script>
 </body>
 </html>
