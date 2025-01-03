@@ -31,15 +31,20 @@ public class SecurityConfig {
                     "/cart/add", // Allow adding to cart
                     "/cart/remove", // Allow removing from cart
                     "/styles.css", 
+                    "/cart.css", 
                     "/products.css", 
                     "/scripts.js",
                     "/home.html",
                     "/sell.css",
-                    "/sell.html"
+                    "/sell.html",
+                    "/logout1",
+                    "/uploads/**"
                 ).permitAll()
-                .anyRequest().authenticated()
+                .anyRequest().authenticated() // Allow public access to these pages
+                  // Require authentication for other pages
             )
-            .csrf(csrf -> csrf.disable());
+            
+            .csrf(csrf -> csrf.disable());  // Disable CSRF for simplicity (be cautious in production)
 
         return http.build();
     }
